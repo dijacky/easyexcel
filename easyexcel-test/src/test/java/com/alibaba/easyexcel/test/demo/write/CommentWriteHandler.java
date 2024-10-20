@@ -4,10 +4,11 @@ import com.alibaba.excel.util.BooleanUtils;
 import com.alibaba.excel.write.handler.RowWriteHandler;
 import com.alibaba.excel.write.handler.context.RowWriteHandlerContext;
 
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.metadata.style.WriteFont;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Comment;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 
@@ -21,8 +22,8 @@ public class CommentWriteHandler implements RowWriteHandler {
 
     @Override
     public void afterRowDispose(RowWriteHandlerContext context) {
+        Sheet sheet = context.getWriteSheetHolder().getSheet();
         if (BooleanUtils.isTrue(context.getHead())) {
-            Sheet sheet = context.getWriteSheetHolder().getSheet();
             Drawing<?> drawingPatriarch = sheet.createDrawingPatriarch();
             // 在第一行 第二列创建一个批注
             Comment comment =
@@ -32,6 +33,10 @@ public class CommentWriteHandler implements RowWriteHandler {
             // 将批注添加到单元格对象中
             sheet.getRow(0).getCell(1).setCellComment(comment);
         }
+
+
+
+
     }
 
 }
